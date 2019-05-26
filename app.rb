@@ -1,4 +1,6 @@
 require 'sinatra/base'
+require 'pg'
+require './lib/account'
 class  Chitter < Sinatra::Base
   use Rack::Session::Cookie
 
@@ -7,15 +9,12 @@ class  Chitter < Sinatra::Base
   end
 
   post '/name' do
-    session[:name] = params[:name]
-    session[:user_name] = params[:user_name]
-    session[:email] = params[:email]
-    session[:password] = params[:password]
+    Account.create_account(first_name: params[:first_name], last_name: params[:last_name], user_name: params[:user_name], email: params[:email], password: params[:password])
     redirect '/name'
   end
 
   get '/name' do
-   "works"
+   erb :log_in
   end
 
 
